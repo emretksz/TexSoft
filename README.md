@@ -28,5 +28,6 @@ Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyebi
 ### Prerequisites
 - [.NET6 SDK](https://dotnet.microsoft.com/download)
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
-  
+
+### Oluşturulma zamanı 2022
 
