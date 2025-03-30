@@ -1,0 +1,70 @@
+﻿@model List< Entities.Concrete.ShippingDetails>
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <p class="card-description">
+                @*  <h4 style="margin:20px">Çıkarılacak miktar mevcut miktardan <b>fazlaysa</b> yeni girilen tutara göre <b>stoktan düşer</b> ve toplam <b>sipariş miktarı artar</b></h4>*@
+                <code>Sipariş Fiyatı Güncelleme</code>
+            </p>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Ürün Adı</th>
+                            <th>Model Numarası</th>
+                            <th>Barcode</th>
+                            <th>Eski Fiyat</th>
+                            <th>Yeni Fiyat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Products.ModelName</td>
+                                <td>@item.Products.ModelCode</td>
+                                <td>@item.Products.Barcode</td>
+                                <td>
+                                    <input id="price_@item.Id" value="@item.UnitePrice" readonly />
+                                </td>
+                                <td>
+                                    <input id="newPrice_@item.Id" value="" placeholder="yeni fiyat" />
+                                    <button id="tamamla_@item.Id" onclick="ChangePriceShipping('@item.Id')" style="margin-left:50px" value="Kaydet" class="btn btn-md  btn-primary">Kaydet</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function ChangePriceShipping(id) {
+
+       var newPrice = $('#newPrice_' + id).val(); // Use .val() to get the value
+
+            $.ajax({
+                url: '@Url.Action("ChangePriceShipping", "Shipping")?shippingId=' + id + '&newPrice=' + newPrice,
+                success: function (ii) {
+                    if (ii =="İşlem Başarılı") {
+                        $('#price_' + id).val(newPrice);
+                    }
+                    swal({
+                        title: "Uyarı",
+                        text: ii,
+                        icon: "info",
+                        button: "Tamam",
+                    });
+                  
+                }
+            });
+
+    }
+
+</script>

@@ -1,0 +1,587 @@
+﻿@model List<Entities.Dtos.ShippingConfirmListDto>
+@{
+    long shippingId = ViewBag.Ids;
+}
+
+@Html.Hidden("shippingId", shippingId)
+
+<center style="margin-bottom:10px">
+    <h5><b> Aynı ürünü tekrar eklerseniz mevcut miktarın üstüne eklenir. Adet fiyatı ve Toplam Tutar değişecektir.</b></h5></center>
+    <center style="margin-bottom:10px"><h5><b>Sipariş tamamlanmış, renkleri seçilmiş ürünü silmeyin!!!!</b></h5>@*<h5 class="card-title" style="margin: 10px"><b>Daha önce eklediğiniz, renkleri seçilmemiş bir ürünü tekrar eklemek istiyorsanız ürünü silip tekrar fiyat ve miktarıyla giriniz!!!</b></h5>*@</center>
+    @*<center style="margin-bottom:50px">
+        </center>*@
+<center  style="margin-bottom:50px">
+    <a href="https://resm.im/album/NeOtehM"><img src="https://i.resm.im/HeZENZS.gif" alt="Resmim" title="Resmim" width="400" height="195" /></a>
+</center>
+    @*<center style="margin-bottom:50px">
+            <a href="https://resm.im/album/NeOtehM"><img src="https://i.resm.im/HeZENZS.gif" alt="Resmim"  title="Resmim" width="650"/></a>
+        </center>*@
+    <!--<div class="col-md-3 grid-margin stretch-card" style="height:25%;margin:auto;width:500px !important">
+        <div class="card">
+
+            <div class="card-body">
+                <div>
+                    <span style="font-weight:bold">Arama yap</span> <br />    <br />
+                    <input class="form-control" type="text" id="search" placeholder="Arama Yap" name="SearchText">
+                </div>-->
+    @*<div class="form-group">
+            <label for="exampleInputUsername1">Arama Yap</label>
+            <input type="text" class="form-control" id="searchbar" placeholder="Arama Yap">
+        </div>*@
+    <!--<br />
+                <button id="gonder" class="btn btn-primary col-12" type="submit">Ara</button>
+            </div>
+        </div>
+    </div>-->
+
+
+    <center style="margin:5px">
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary" type="button" onclick="Ac(1)" data-bs-toggle="collapse" data-bs-target="#yeniurun" aria-expanded="false" aria-controls="yeniurun">
+                    Yeni Ürün Ekle
+                </button>
+                <label style="color: green; font-size: 20px; margin: 20px" id="yeniurunacik" hidden>AÇIK</label>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary" onclick="Ac(2)" type="button" data-bs-toggle="collapse" data-bs-target="#siparisArttir" aria-expanded="false" aria-controls="siparisArttir">
+                    Siparişe ürün ekle- çıkar
+                </button>
+                <label style="color: green; font-size: 20px; margin: 20px" id="siparisArttiracik" hidden>AÇIK</label>
+            </div>
+        </div>
+    </center>
+    <script>
+        var acildi = false;
+        function Ac(ac) {
+
+
+            if (ac == 1) {
+                if ($('#yeniurunacik').attr('hidden')) {
+                    $('#yeniurunacik').removeAttr('hidden');
+                } else {
+                    $('#yeniurunacik').attr('hidden', 'hidden');
+                }
+            }
+            if (ac == 2) {
+                if ($('#siparisArttiracik').attr('hidden')) {
+                    $('#siparisArttiracik').removeAttr('hidden');
+                } else {
+                    $('#siparisArttiracik').attr('hidden', 'hidden');
+                }
+            }
+
+            //if (ac == 3) {
+
+            //    $('#adetdusacik').removeAttr("hidden");
+            //}
+            //if (ac == 4) {
+            //    $('#renkdusacik').removeAttr("hidden");
+
+            //}
+
+            //if (acildi) {
+            //    acildi = false;
+            //    $('#yeniurunacik').attr("hidden", "hiddden");
+            //    $('#siparisArttiracik').attr("hidden", "hiddden");
+            //    $('#adetdusacik').attr("hidden", "hiddden");
+            //    $('#renkdusacik').attr("hidden", "hiddden");
+            //}
+            //else {
+            //    acildi = true;
+            //}
+
+
+        }
+        var acildi2 = false;
+        function Ac2(ac) {
+
+
+
+
+            if (ac == 3) {
+
+                if ($('#adetdusacik').attr('hidden')) {
+                    $('#adetdusacik').removeAttr('hidden');
+                } else {
+                    $('#adetdusacik').attr('hidden', 'hidden');
+                }
+
+
+            }
+            if (ac == 4) {
+                if ($('#renkdusacik').attr('hidden')) {
+                    $('#renkdusacik').removeAttr('hidden');
+                } else {
+                    $('#renkdusacik').attr('hidden', 'hidden');
+                }
+
+            }
+
+            //if (acildi2) {
+            //    acildi2 = false;
+            //    $('#adetdusacik').attr("hidden", "hiddden");
+            //    $('#renkdusacik').attr("hidden", "hiddden");
+            //}
+            //else {
+            //    acildi2 = true;
+            //}
+
+
+        }
+    </script>
+    <div class="collapse" id="yeniurun">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <span style="font-weight:bold">Arama yap</span> <br />    <br />
+                    <input class="form-control" type="text" id="search" placeholder="Arama Yap" name="SearchText">
+                </div>
+                <br />
+                <button id="gonder" class="btn btn-primary col-12" type="submit">Ara</button>
+            </div>
+            <div class="col-lg-12 grid-margin stretch-card" style="margin-top:25px">
+                <div class="card" id="shippingProductNew">
+
+                </div>
+            </div>
+            <div>
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card" id="Siparisler">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="collapse" id="siparisArttir">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Eklenen Ürünler</h4>
+                            <div class="row">
+                                <div class="col-6 ">
+                                    <button class="btn btn-primary" onclick="Ac2(3)" type="button" data-bs-toggle="collapse" data-bs-target="#urundenDus" aria-expanded="false" aria-controls="urundenDus">
+                                        Ürün Adetinden Düş
+                                    </button>
+                                    <label style="color: green; font-size: 20px; margin: 20px" id="adetdusacik" hidden>AÇIK</label>
+                                    <button class="btn btn-primary" onclick="Ac2(4)" type="button" data-bs-toggle="collapse" data-bs-target="#renktenDus" aria-expanded="false" aria-controls="renktenDus">
+                                        Renkten Düş
+                                    </button>
+                                    <label style="color:green;font-size:20px;margin:20px" id="renkdusacik" hidden>AÇIK</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive collapse" id="urundenDus">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Model Kodu
+                                        </th>
+                                        <th>
+                                            Model Adı / Yaş
+                                        </th>
+                                        <th>
+                                            Mevcut Eklenmiş Adet
+                                        </th>
+                                        <th>
+                                            Ürüne Ekle
+                                        </th>
+                                        <th>
+                                            Üründen Çıkart
+                                        </th>
+                                        <th>
+                                            Ürünü Sil
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int ii = 0;
+                                    }
+                                    @foreach (var item in ViewBag.Urun as List<Entities.Dtos.ShippingProduct>)
+                                    {
+                                        if (item.Count > 0)
+                                        {
+
+                                            if (ii == 0)
+                                            {
+                                                @Html.Hidden("shippingId", item.ShippingId)
+                                                ii++;
+                                            }
+
+                                            <tr>
+                                                <td>
+                                                    @item.ModelCode
+                                                </td>
+                                                <td>
+                                                    @item.ProductName / @item.Age
+                                                </td>
+                                                <td>
+                                                    <input id="miktar_@item.ProductId" value="@item.Count" readonly />
+                                                </td>
+                                                <td>
+                                                    <input id="ekle_@item.ProductId" value="" />
+                                                    <button class="btn btn-primary btn-xs legitRipple pull-right" onclick="UruneEkle('@item.ProductId','@item.ShippingId')"> Ekle</button>
+                                                </td>
+
+                                                <td>
+                                                    <input id="urundenCikart_@item.ProductId" value="" />
+                                                    <button class="btn btn-danger btn-xs legitRipple pull-right" onclick="UrundenCikart('@item.ProductId','@item.ShippingId')"> Çıkart</button>
+                                                </td>
+                                                <td>
+                                                    <input id="urundenSil_@item.ProductId" value="" hidden />
+                                                    <button class="btn btn-danger btn-xs legitRipple pull-right" onclick="UrundenSil('@item.ProductId','@item.ShippingId')"> Sil</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="table-responsive collapse" id="renktenDus">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Model Kodu
+                                        </th>
+                                        <th>
+                                            Model Adı
+                                        </th>
+                                        <th>
+                                            Renk Adı
+                                        </th>
+                                        <th>
+                                            Mevcut Eklenmiş Adet
+                                        </th>
+                                        <th>
+                                            Renk Çıkarma
+                                        </th>
+                                        <th>
+                                            Renk Silme
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int iii = 0;
+                                    }
+                                    @if (ViewBag.Renkli != null)
+                                    {
+                                        @foreach (var item in ((List<Entities.Dtos.ShippingProduct>)ViewBag.Renkli))
+                                        {
+                                            if (item.Count > 0)
+                                            {
+                                                if (iii == 0)
+                                                {
+                                                    @Html.Hidden("shippingId", item.ShippingId)
+                                                    iii++;
+                                                }
+
+                                                <tr>
+                                                    <td>
+                                                        @item.ModelCode
+                                                    </td>
+                                                    <td>
+                                                        @item.ProductName
+                                                    </td>
+                                                    <td>
+                                                        @item.ColorName
+                                                    </td>
+                                                    <td>
+                                                        <input id="miktar2_@item.ProductId" value="@item.Count" readonly />
+                                                    </td>
+                                                    <td>
+                                                        <input id="cikarAdet_@item.ColorId" value="" />
+                                                        <input id="cikartUrun_@item.ProductId" value="" hidden />
+                                                        <input id="cikartSpId_@item.ShippingId" value="" hidden />
+                                                        <input id="cikartColorId_@item.ColorId" value="" hidden />
+                                                        <button class="btn btn-warning btn-xs legitRipple pull-right" onclick="RenktenCikart('@item.ShippingId','@item.ProductId','@item.ColorId')"> Çıkart</button>
+                                                    </td>
+                                                    <td>
+                                                        <input id="cikarAdet2_@item.ColorId" value="" hidden />
+                                                        <input id="cikartUrun2_@item.ProductId" value="" hidden />
+                                                        <input id="cikartSpId2_@item.ShippingId" value="" hidden />
+                                                        <input id="cikartColorId2_@item.ColorId" value="" hidden />
+                                                        <button class="btn btn-warning btn-xs legitRipple pull-right" onclick="RenktenSil('@item.ShippingId','@item.ProductId','@item.ColorId')"> Sil</button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+
+    function UruneEkle(productId,shippingId) {
+       var adet= $('#ekle_' + productId).val();
+        $.ajax({
+            url: '@Url.Action("UruneEkle","Shipping")?spId=' + shippingId + "&productId=" + productId + "&adet=" + adet,
+            success: function (ii) {
+                $('#miktar_' + productId).val(parseInt( $('#miktar_' + productId).val())+ parseInt( adet));
+                if (ii == "-1") {
+                    swal({
+                        title: "Uyarı",
+                        text: "Eklenemedi",
+                        icon: "info",
+                        button: "Tamam",
+                    });
+                }
+                else {
+
+                    swal({
+                        title: "Uyarı",
+                        text: "Başarılı",
+                        icon: "info",
+                        button: "Tamam",
+                    });
+                }
+
+            }
+
+        });
+    }
+
+     function UrundenCikart(productId,shippingId) {
+         var adet = $('#urundenCikart_' + productId).val();
+           $.ajax({
+            url: '@Url.Action("UrundenCikart","Shipping")?spId=' + shippingId + "&productId=" + productId + "&adet=" + adet +"&sil="+false,
+            success: function (ii) {
+                if (ii == "-1") {
+                    swal({
+                        title: "Uyarı",
+                        text: "Ürünün renk adetleri mevcut, eksiltilemez",
+                        icon: "info",
+                        button: "Tamam",
+                    });
+                }
+                else {
+
+                    swal({
+                        title: "Uyarı",
+                        text: "Başarılı",
+                        icon: "info",
+                        button: "Tamam",
+                    });
+                    window.location.reload();
+                }
+            }
+
+        });
+
+
+    }
+    function UrundenSil(productId,shippingId) {
+          var adet = $('#urundenSil_' + productId).val();
+      swal({
+          title: "ÜRÜNÜ SİLİYORSUNUZ!! BU İŞLEM GERİ ALINAMAZ...",
+          text: "BU İŞLEMDE, ÜRÜN SİPARİŞTEN SİLİNECEK, FATURALARDAN SİLİNECEK, ONAYLIYOR MUSUN?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+          buttons: ["Hayır", "Evet"],
+      }).then((willDelete) => {
+          if (willDelete) {
+               $.ajax({
+                url: '@Url.Action("UrundenCikart","Shipping")?spId=' + shippingId + "&productId=" + productId + "&adet=" + adet +"&sil="+true,
+                success: function (ii) {
+                         if (ii == "-1") {
+                             swal({
+                                 title: "Uyarı",
+                                 text: "Ürünün renk adetleri mevcut, eksiltilemez",
+                                 icon: "info",
+                                 button: "Tamam",
+                             });
+                         }
+                          else {
+
+                             swal({
+                                 title: "Uyarı",
+                                 text: "Başarılı",
+                                 icon: "info",
+                                 button: "Tamam",
+                             });
+                             window.location.reload();
+                               }
+                       }
+
+                  });
+          }
+      });
+
+ }
+
+
+
+
+    function RenktenCikart(shippingId,productId,colorId) {
+        var adet = $('#cikarAdet_' + colorId).val();
+        $.ajax({
+            url: '@Url.Action("RenktenCikar", "Shipping")?spId=' + shippingId + "&productId=" + productId + "&adet=" + adet +"&colorId="+colorId+ "&sil=" + false,
+            success: function (ii) {
+
+                $('#miktar2_' + productId).val(parseInt($('#miktar2_' + productId).val()) - parseInt(adet));
+                if (ii == "-1") {
+                    swal({
+                        title: "Uyarı",
+                        text: "Eklenemedi",
+                        icon: "info",
+                        button: "Tamam",
+                    });
+                }
+                else {
+                    swal({
+                        title: "Uyarı",
+                        text: "Başarılı",
+                        icon: "info",
+                        button: "Tamam",
+                    });
+                    window.location.reload();
+                }
+
+            }
+
+        });
+    }
+        function RenktenSil(shippingId,productId,colorId) {
+            var adet = $('#cikarAdet2_' + colorId).val();
+            var miktar = $('#miktar2_' + productId).val();
+
+            swal({
+                title: "ÜRÜNÜ SİLİYORSUNUZ!! BU İŞLEM GERİ ALINAMAZ...",
+                text: "BU İŞLEMDE, ÜRÜN renkleri SİPARİŞTEN SİLİNECEK, FATURALARDAN SİLİNECEK, ONAYLIYOR MUSUN?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                buttons: ["Hayır", "Evet"],
+            }).then((willDelete) => {
+                if (willDelete) {
+                 $.ajax({
+                     url: '@Url.Action("RenktenCikar", "Shipping")?spId=' + shippingId + "&productId=" + productId + "&adet=" + miktar + "&colorId=" + colorId + "&sil=" + true,
+                     success: function (ii) {
+                         $('#miktar_' + productId).val(adet);
+
+                              swal({
+                                  title: "Uyarı",
+                                  text: "Başarılı",
+                                  icon: "info",
+                                  button: "Tamam",
+                              });
+                         window.location.reload();
+                      }
+
+                  });
+                }
+            });
+
+    }
+
+    </script>
+
+
+
+
+    <!--<div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <center>-->
+    @*  <h4 style="margin:20px">Çıkarılacak miktar mevcut miktardan <b>fazlaysa</b> yeni girilen tutara göre <b>stoktan düşer</b> ve toplam <b>sipariş miktarı artar</b></h4>*@
+    <!--<h2  class="card-description"><b>Daha Önce eklenen ürünler</b></h2>
+    </center>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Ürün Adı</th>
+                    <th>Model</th>
+                    <th>Barcode</th>
+                    <th>Yaş</th>
+                    <th>Adet</th>
+                    <th>Fiyat</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.ProductModel</td>
+                        <td>@item.ProductCode</td>
+                        <td>@item.Age</td>
+                        <td>@item.Amount</td>
+                        <td>@item.Price</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>-->
+    @*<button style="float:right;margin-top:40px;margin-right:50px" onclick="Tamamla()" class="btn btn-success btn-bg">Güncelle</button>*@
+    <!--</div>
+        </div>
+    </div>-->
+
+    <script>
+    $(document).ready(function(){
+
+        $.ajax({
+            url: '@Url.Action("CheckShippingCofirmListReturn", "Shipping")?spId=' + '@ViewBag.Ids',
+            success:function(returnHtml){
+                $('#Siparisler').html("");
+                console.log(returnHtml);
+                $('#Siparisler').html(returnHtml);
+            }
+        })
+
+
+    })
+
+    var ShippinbgId = $('#shippingId').val();
+    $('#gonder').click(function (e) {
+        var ay1;
+        var gender1;
+        var search;
+
+        const text = $('#search').val();
+        if (text.length > 0)
+            search = $('#search').val();
+        var p = {
+            ay1: Number(ay1),
+            gender1: Number(gender1),
+            SearchText: search,
+            Search: true,
+        }
+        $.ajax({
+            url: '@Url.Action("NewShippingViewPartical","Shipping")',
+            traditional: true,
+            data: p,
+            success: function (htmls) {
+                $('#shippingProductNew').html(htmls);
+            }
+        })
+    });
+
+    </script>

@@ -1,0 +1,267 @@
+﻿@model List<Entities.Concrete.Product>
+
+<div class="card-body">
+    <h4 class="card-title">Ürün Listesi</h4>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ÜRÜN</th>
+                </tr>
+
+            </thead>
+            @* hidden shipping ıd gelecek!!!!!!!!!!*@
+            <tbody>
+                @{
+                    int i = 1;
+                }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><img src="@item.ModelImageUrl" width="25%" /></td>
+                        @*  <td hidden><input id="productId" value="@item.Id"  /></td>*@
+                        <td>@item.Barcode</td>
+                        <td hidden><input type="number" class="form-control" id="ProductId_@i" name="ProductId" placeholder="ıd" value="@item.Id" /></td>
+                        <td>@item.ModelCode</td>
+                        <td>@item.Gender</td>
+                        <td>@item.ModelName</td>
+                        @if (item.ProductAges != null)
+                        {
+                            <td>@item.ProductAges.Name</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td>Adet: <input type="number" class="form-control" id="Amounts_@i" name="Amount" placeholder="ADET" /></td>
+                        <td>Tutar: <input type="number" class="form-control" id="Prices_@i" name="Price" placeholder="TUTAR" /></td>
+                        <td><button class="btn btn-primary" onclick="AddShipping('@item.Id')">Ekle</button></td>
+                    </tr>
+                    i++;
+                }
+
+            </tbody>
+
+
+        </table>
+        <ul class="pagination justify-content-center">
+            @{
+                int currentPage = ViewBag.CurrentPage;
+                int pageSize = ViewBag.PageSize;
+                int totalItems = ViewBag.TotalItems;
+                int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+                // Previous Button
+                if (currentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:void(0)" onclick="loadPage(@(currentPage - 1))" aria-label="Previous">
+                            <span aria-hidden="true">«</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">«</span>
+                    </li>
+                }
+
+                // Page Numbers
+                for (int p = 1; p <= totalPages; p++)
+                {
+                    if (p == currentPage)
+                    {
+                        <li class="page-item active"><span class="page-link">@p</span></li>
+                    }
+                    else
+                    {
+                        <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="loadPage(@p)">@p</a></li>
+                    }
+                }
+
+                // Next Button
+                if (currentPage < totalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:void(0)" onclick="loadPage(@(currentPage + 1))" aria-label="Next">
+                            <span aria-hidden="true">»</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">»</span>
+                    </li>
+                }
+            }
+        </ul>
+        <script>
+            function loadPage(page) {
+                var ay1;
+                var gender1;
+                var search;
+
+                const text = $('#search').val();
+                if (text.length > 0)
+                    search = $('#search').val();
+                var c = {
+                    ay1: Number(ay1),
+                    gender1: Number(gender1),
+                    SearchText: search,
+                    Search: true,
+                    page: page,
+                    pageSize: Number('@ViewBag.PageSize')
+                }
+
+                $.ajax({
+                url: '@Url.Action("NewShippingViewPartical","Shipping")',
+                traditional: true,
+                    data: c,
+                success: function (htmls) {
+                    $('#shippingProductNew').html(htmls);
+                }
+                 })
+            }
+
+
+
+        </script>
+    </div>
+</div>
+@section Script{
+    }
+<script>
+    function ClearHtml() {
+        console.log(sayacım +"sayaç");
+        for (var b = 0; b < sayacım; b++) {
+            //console.log((b + 1));
+            //console.log($('#Amount_' + (b + 1)).val().toString());
+            //$('#Amount_' + (b + 1)).html() ;
+            //$('#Price_' + (b + 1)).html();
+            document.getElementById('Amounts_' + (b + 1)).value = "";
+            document.getElementById('Prices_' + (b + 1)).value = "";
+        }
+    }
+    var sayacım = 0;
+    function AddShipping(productId) {
+
+        try {
+             const format = (num, decimals) => num.toLocaleString('en-US', {
+               minimumFractionDigits: 2,
+               maximumFractionDigits: 2,
+           });
+
+
+   sayacım = @Model.Count;
+   var stringArray = new Array();
+   //stringArray[0] = "item1";
+   //stringArray[1] = "item2";
+   //stringArray[2] = "item3";
+
+   var convertShippngDto = [];
+   var data = new Array();
+   var things = {};
+   var amount; /*= $('#Amount').val();*/
+   var price; /*= $('#Price').val();*/
+   var productIds = productId;
+   var shippinghId = ShippinbgId;
+   var modelCounter = Number(@Model.Count);
+   var forSayac= modelCounter;
+            console.log(forSayac);
+
+
+            var totalAdded = 0;
+
+
+
+   for (var i = 0; i < forSayac; i++) {
+
+       console.log(i.toString(), $('#Amounts_' + (i + 1)).val() == "");
+       console.log(i.toString(), $('#Prices_' + (i + 1)).val()=="");
+
+
+       if ($('#Amounts_' + (i + 1)).val() == "" || $('#Prices_' + (i + 1)).val() == "") {
+
+           continue;
+       }
+
+
+
+       if ($('#Amounts_' + (i + 1)).val() != null && $('#Amounts_' + (i + 1)).val()!="") {
+           amount = $('#Amounts_' + (i + 1)).val().toString();
+       }
+
+       if ($('#Prices_' + (i + 1)).val() != null && $('#Prices_' + (i + 1)).val() != "") {
+           price = $('#Prices_' + (i + 1)).val().toString();
+       }
+
+       productId = $('#ProductId_' + (i + 1)).val().toString();
+
+       if (price != null && price != undefined && price != "" && amount != null && amount != undefined && amount != "") {
+           totalAdded++;
+           var sonuc = parseFloat(price) * Number(amount);
+           var formatNumber = format(sonuc);
+           var format2 = format(parseFloat(price));
+           console.log(formatNumber);
+           stringArray[i] = { "amount": amount.toString(), "shippinbgId": shippinghId.toString(), "productId": productId.toString(), "price": formatNumber.toString(), "uniteprice": format2.toString() };
+       }
+
+     }
+ //  console.log(stringArray);
+   ClearHtml();
+   //var postData = { convertShippngDto: stringArray };
+   //console.log(stringArray);
+
+            if (totalAdded > 0) {
+                   $.ajax({
+                   url: '@Url.Action("ShippingCofirmList2","Shipping")',
+                   type: "POST",
+                   data: JSON.stringify(stringArray),
+                   contentType: 'application/json; charset=utf-8',
+                   dataType: 'json',
+                   success: function (data) {
+                       $('#Siparisler').html("");
+                       $('#Siparisler').html(data);
+                       for (var i = 1; i < @Model.Count; i++) {
+                           $('#Amounts_' + i).html("");
+                           $('#Prices_' + i).html("");
+                       }
+                   },
+                   error: function (data) {
+                      // console.log(data.responseText);
+                       $('#Siparisler').html("");
+                       $('#Siparisler').html(data.responseText);
+
+                   }
+
+               })
+            }
+
+
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+
+
+
+                            //var url = '@Url.Action("AddShippingDetails","Shipping")?ShippingId=' + shippingId + '&productId=' + productId;
+                            //$.ajax({
+                            //    url: url,
+                            //    traditional: true,
+                            //    datatype: "JSON",
+                            //    async: true,
+                            //    method: 'POST',
+                            //    data: { "body": jsonConvert },
+                            //    success: function () {
+                            //        alert("tqama");
+                            //        //  console.log(shippingId);
+                            //        window.location.reload();
+                            //    }
+                            //});
+</script>
+
